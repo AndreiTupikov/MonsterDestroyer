@@ -15,15 +15,15 @@ public class PlayerController : MonoBehaviour
     private Animator animator;
     private bool alive = true;
     private bool movingRight = true;
-    private float horizontalBorder;
-    private float topBorder = 1.7f;
-    private float bottomBorder = -3f;
+    [SerializeField] private Transform topBorder;
+    [SerializeField] private Transform bottomBorder;
+    [SerializeField] private Transform leftBorder;
+    [SerializeField] private Transform rightBorder;
 
     private void Start()
     {
         healthBar.maxHealth = health;
         animator = GetComponent<Animator>();
-        horizontalBorder = Camera.main.ViewportToWorldPoint(new Vector2(1, 1)).x;
     }
 
     private void Update()
@@ -52,10 +52,10 @@ public class PlayerController : MonoBehaviour
 
     private void MapBorderCorrection()
     {
-        if (transform.position.x > horizontalBorder) transform.position = new Vector2(horizontalBorder, transform.position.y);
-        else if (transform.position.x < -horizontalBorder) transform.position = new Vector2(-horizontalBorder, transform.position.y);
-        if (transform.position.y > topBorder) transform.position = new Vector2(transform.position.x, topBorder);
-        else if (transform.position.y < bottomBorder) transform.position = new Vector2(transform.position.x, bottomBorder);
+        if (transform.position.x > rightBorder.position.x) transform.position = new Vector2(rightBorder.position.x, transform.position.y);
+        else if (transform.position.x < leftBorder.position.x) transform.position = new Vector2(leftBorder.position.x, transform.position.y);
+        if (transform.position.y > topBorder.position.y) transform.position = new Vector2(transform.position.x, topBorder.position.y);
+        else if (transform.position.y < bottomBorder.position.y) transform.position = new Vector2(transform.position.x, bottomBorder.position.y);
     }
 
     public void Shoot()

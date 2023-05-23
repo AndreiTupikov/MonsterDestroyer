@@ -5,13 +5,7 @@ public class JoystickController : MonoBehaviour
 {
     public PlayerController playerController;
     public Transform manipulator;
-    private Vector3 center;
     private int moveTouchId = -1;
-
-    private void Start()
-    {
-        center = manipulator.position;
-    }
 
     private void Update()
     {
@@ -50,7 +44,7 @@ public class JoystickController : MonoBehaviour
                         MoveJoystick(touch.position);
                         if (touch.phase == TouchPhase.Ended)
                         {
-                            manipulator.position = center;
+                            manipulator.position = transform.position;
                             moveTouchId = -1;
                             if (playerController != null) playerController.moveDirection = Vector2.zero;
                         }
@@ -77,7 +71,7 @@ public class JoystickController : MonoBehaviour
         if (Input.GetMouseButtonUp(0) && moveTouchId > 0)
         {
             moveTouchId = -1;
-            manipulator.position = center;
+            manipulator.position = transform.position;
             if (playerController != null) playerController.moveDirection = Vector2.zero;
         }
         if (moveTouchId > 0)
@@ -88,9 +82,9 @@ public class JoystickController : MonoBehaviour
 
     private void MoveJoystick(Vector3 vector)
     {
-        Vector2 direction = Camera.main.ScreenToWorldPoint(vector) - center;
+        Vector2 direction = Camera.main.ScreenToWorldPoint(vector) - transform.position ;
         if (Math.Abs(direction.x) > 0.75 || Math.Abs(direction.y) > 0.75) direction = direction.normalized;
-        manipulator.position = center;
+        manipulator.position = transform.position;
         manipulator.Translate(direction * 0.75f);
         if (playerController != null) playerController.moveDirection = direction;
     }

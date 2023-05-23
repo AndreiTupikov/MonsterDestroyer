@@ -7,6 +7,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject player;
     [SerializeField] private GameObject monsterPrefab;
     [SerializeField] private Transform canvas;
+    [SerializeField] private Transform topBorder;
+    [SerializeField] private Transform bottomBorder;
+    [SerializeField] private Transform rightBorder;
     [SerializeField] private GameObject healthBarPrefab;
     [SerializeField] private GameObject inventory;
     private SphereCollider[] uI;
@@ -22,7 +25,7 @@ public class GameManager : MonoBehaviour
 
     private void MonsterSpawn()
     {
-        var monster = Instantiate(monsterPrefab, new Vector2(Random.Range(6f, 8f), Random.Range(-2.5f, 1.5f)), Quaternion.identity);
+        var monster = Instantiate(monsterPrefab, new Vector2(Random.Range(10f, rightBorder.position.x - 1), Random.Range(bottomBorder.position.y + 0.5f, topBorder.position.y - 0.5f)), Quaternion.identity);
         var healthBar = Instantiate(healthBarPrefab, new Vector2(monster.transform.position.x, monster.transform.position.y + 0.8f), Quaternion.identity, canvas);
         monster.GetComponent<FleshController>().Initialize(player.transform, healthBar);
     }
